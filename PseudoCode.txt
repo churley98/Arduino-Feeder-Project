@@ -1,0 +1,162 @@
+//  ***************************************************************************************************************
+//  * Psudocode for the automatic food feeder                                					  *
+//  *														  *													  *
+//  * Revision 0.1 Alpha											  *								     		  *
+//  *														  *													  *
+//  * Author: Chris Hurley											  *											  *
+//  *														  *													  *
+//  * Purpose: Basic code outline of what final code product should look like.                                    *
+//  *                                                                                                             *
+//  * Other: Also contains part list for the parts required by the code to function.                              *
+//  *                                                                                                             *
+//  * TODO: Write the final code, and add other abilities.                                                        *
+//  ***************************************************************************************************************
+
+
+Voltage Values for PhotoResistor (5v)
+with 2020 ohm resistor 
+Total Dark = 4.94V - 2.2v
+Middle = 2.2v - 1.25
+Bright = 1.25v >
+
+Parts List:
+Resistors : 
+		1 - 2000 OHM
+		1 - 20 OHM
+		1 - 10 OHM PhotoResistor
+Servos:
+		1 - 5v Compatable Servo
+		
+1 - MultiMeter
+1 - Prototyping Board
+Unknown - Wires for connections
+Arduino UNO or Better
+1 - 5v Battery
+
+		
+
+
+#include <Time.h>
+#include <Servo.h>
+
+//instance Variables
+int angle; //setup for the server angle
+
+Servo servoT; //Create a new servo object
+
+Void Setup()
+	Serial.begin(9600) // Readys the Serial to print out information to console
+	servoT.Attach(9) // pin servo is attached to.
+
+int getCurrentTime(){
+	return hours() + minutes();
+}
+
+void Loop(){
+	resetServo();
+	FillTime();
+}
+
+METHOD FillTime
+isFeed: bool
+Light: float;
+CONST INT BREAKFAST = 37;
+CONST INT LUNCH
+CONST INT DINNER = 17;
+
+currentTime = getCurrentTime();
+serial.print("currentTime value")
+serial.println(currentTime);
+
+switch(currentTime){
+	Case 1: (CurrentTime == BREAKFAST && !puppyMode){
+		Check isBowlFull();
+			if no: 
+				fillLevel = CheckFillLevel()
+				
+				if(fillLevel == 1)
+					fillBowl(1);
+				
+				if(fillLevel == 2)
+					fillBowl(2);
+				
+				if(fillLevel == 3)
+					fillBowl(3);
+			else	
+				print("bowl is Full") 
+				Break;
+	}
+	
+	Case 2: (CurrentTime == LUNCH){
+		Check isBowlFull();
+			if no: CheckFillLevel()
+			
+			else	
+				print("bowl is Full") 
+				Break;
+	}
+	
+	Case 3: (CurrentTime == DINNER && !puppyMode){
+		Check isBowlFull();
+			if no: CheckFillLevel()
+			
+			else	
+				print("bowl is Full") 
+				Break;
+	}
+	
+	Default: print("not time");
+}
+END METHOD
+
+METHOD CheckFillLevel: int
+	digitalWrite(LEDBTM, HIGH);
+	digitalWrite(LEDMIDDLE, HIGH);
+	digitalWrite(LEDTOP, HIGH);
+	
+	read in voltage
+	switch(voltage){
+		Case 1(Large amount){
+			FillLevel = 1
+		}
+		
+		Case 1(Large amount){
+			FillLevel = 2
+		}
+		
+		Case 1(Large amount){
+			FillLevel = 3
+		}
+		
+	digitalWrite(LEDBTM, LOW);
+	digitalWrite(LEDMIDDLE, LOW);
+	digitalWrite(LEDTOP, LOW);
+	
+	}
+	
+	return FillLevel
+END METHOD
+
+METHOD Fillbowl(fillLevel)
+	LOOP: FillBowl
+		(for int i = 0; i < fillLevel){
+				moveServo;
+				resetServo;
+				print results to Serial;
+		
+		}
+END METHOD
+
+METHOD moveServo(){
+
+	angle = 180;
+	servoT.write(angle);
+	delay(500); // delay the end of the function to allow time for cup to empty food into bowl.
+	
+}
+END METHOD moveServo
+
+METHOD ResetServo(){
+	angle = 45;
+}
+END METHOD ResetServo

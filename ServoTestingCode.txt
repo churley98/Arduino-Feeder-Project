@@ -1,0 +1,60 @@
+//  ***************************************************************************************************************
+//  * Testing Code for Servo Prototype circuit with Arduino for Food Program					  *
+//  *														  *													  *
+//  * Revision 1.0												  *												  *
+//  *														  *													  *
+//  * Author: Chris Hurley											  *											  *
+//  *														  *													  *
+//  * Purpose: Used to test code on arduino circuit with a photo resistor, multimeter, and servo attached.        *
+//  *                                                                                                             *
+//  * Other: Voltage Values dervided from different light values increasing voltage on a 2020 ohm resistor.       *
+//  *                                                                                                             *
+//  * TODO: Test other values for the servo.                                                                      *
+//  ***************************************************************************************************************
+#include <Servo.h>
+
+//Create a new servo object
+Servo servoT;
+
+int potpin = A0;
+int angle;
+
+// the setup routine runs once when you press reset:
+void setup() {
+  servoT.attach(9);
+  Serial.begin(9600);
+}
+
+// the loop routine runs over and over again forever:
+void loop() {
+  int val = analogRead(potpin);
+  float volt = 5.*val/1023;
+  //int angle; 
+    //map(val, 0, 1023, 0, 180);
+  //Dark
+  if (volt < 5.0 && volt > 2.2)
+  {
+    angle = 45;
+  	servoT.write(angle);
+  }
+  //Mid
+  if (volt < 2.2 && volt > 1.25)
+  {
+    angle = 90;
+  	servoT.write(angle);
+  }
+  
+  //Light
+  if (volt < 1.25 && volt > 1.0)
+  {
+    angle = 180;
+  	servoT.write(angle);
+  }
+  Serial.print(angle);
+  Serial.print("\t");
+  Serial.print(val);
+  Serial.print("\t");
+  Serial.print(volt, 2);
+  Serial.println("v");
+}
+
